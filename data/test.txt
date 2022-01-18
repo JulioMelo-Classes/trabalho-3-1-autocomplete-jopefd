@@ -1,0 +1,4 @@
+3
+      1	Shanghai, China
+      3	Buenos Aires, Argentina
+      2	Mumbai, India
