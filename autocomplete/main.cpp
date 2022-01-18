@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <set>
@@ -6,13 +7,14 @@
 
 using std::cout;
 using std::endl;
+using std::for_each;
 using std::ifstream;
 using std::pair;
 using std::set;
 using std::size_t;
 using std::string;
-using std::ws;
 using std::stringstream;
+using std::ws;
 
 int main(int argc, char **argv) {
   ifstream database(argv[1]);
@@ -20,6 +22,8 @@ int main(int argc, char **argv) {
 
   getline(database, line);
   size_t lines_number = stoi(line);
+
+  set<pair<size_t, string>> frequencies_words;
 
   while (lines_number--) {
     stringstream aux;
@@ -31,6 +35,9 @@ int main(int argc, char **argv) {
     aux >> frequency_word.first;
     getline(aux >> ws, frequency_word.second);
 
-    cout << frequency_word.first << " " << frequency_word.second << endl;
+    frequencies_words.insert(frequency_word);
   }
+
+  for_each(frequencies_words.begin(), frequencies_words.end(),
+           [](auto &p) { cout << p.first << " " << p.second << endl; });
 }
