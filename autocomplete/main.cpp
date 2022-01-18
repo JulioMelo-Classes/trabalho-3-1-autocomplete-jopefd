@@ -11,6 +11,7 @@ using std::pair;
 using std::set;
 using std::size_t;
 using std::string;
+using std::ws;
 using std::stringstream;
 
 int main(int argc, char **argv) {
@@ -28,8 +29,7 @@ int main(int argc, char **argv) {
 
     aux << line;
     aux >> frequency_word.first;
-    aux << line;
-    aux >> frequency_word.second;
+    getline(aux >> ws, frequency_word.second);
 
     cout << frequency_word.first << " " << frequency_word.second << endl;
   }
