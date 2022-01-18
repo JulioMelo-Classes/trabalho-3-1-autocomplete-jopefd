@@ -13,10 +13,12 @@ using std::getline;
 using std::ifstream;
 using std::lower_bound;
 using std::pair;
+using std::search;
 using std::set;
 using std::size_t;
 using std::string;
 using std::stringstream;
+using std::tolower;
 using std::upper_bound;
 using std::ws;
 
@@ -64,9 +66,13 @@ int main(int argc, char **argv) {
     // cout << (first == frequencies_words.begin() ? first->second : "no") <<
     // endl;
 
-    for_each(frequencies_words.begin(), frequencies_words.end(),
-             [user_input](const auto &fw) {
-               cout << (fw.second.find(user_input) != string::npos ? "sim" : "nao") << endl;
-             });
+    for_each(
+        frequencies_words.begin(), frequencies_words.end(),
+        [user_input](const auto &fw) {
+          auto it = search(fw.second.begin(), fw.second.end(), user_input.begin(),
+                 user_input.end(),
+                 [](char c1, char c2) { return tolower(c1) == tolower(c2); });
+          cout << (it != fw.second.end() ? "sim" : "nao") << endl;
+        });
   }
 }
