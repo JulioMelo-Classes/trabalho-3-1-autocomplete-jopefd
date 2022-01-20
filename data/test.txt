@@ -1,4 +1,13 @@
-3
+12
       1	Shanghai, China
+      1	Shanghai1, China
+      1	Shanghai2, China
+      1	Shanghai3, China
       3	Buenos Aires, Argentina
+      3	Buenos Aires1, Argentina
+      3	Buenos Aires2, Argentina
+      3	Buenos Aires3, Argentina
       2	Mumbai, India
+      2	Mumbai1, India
+      2	Mumbai2, India
+      2	Mumbai3, India
