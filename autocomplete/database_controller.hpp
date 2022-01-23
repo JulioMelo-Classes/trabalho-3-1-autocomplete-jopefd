@@ -10,7 +10,7 @@ class DatabaseController {
 
   WordsFrequencies get_words_frequencies() const;
 
-  void set_words_frequencies(const WordsFrequencies &words_frequencies) const;
+  void set_words_frequencies(const WordsFrequencies &words_frequencies);
 
  private:
   WordsFrequencies words_frequencies_;
