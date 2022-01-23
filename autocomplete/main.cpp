@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 
+#include "database_controller.hpp"
 #include "user_interface.hpp"
 
 using std::cin;
@@ -26,29 +27,8 @@ using std::upper_bound;
 using std::ws;
 
 int main(int argc, char **argv) {
-  ifstream database = UserInterface::OpenDatabase(argc, argv);
-  string line;
-
-  getline(database, line);
-  size_t lines_number = stoi(line);
-
-  set<pair<string, size_t>> frequencies_words;
-
-  while (lines_number--) {
-    size_t frequency;
-    string word;
-    stringstream aux;
-
-    getline(database, line);
-
-    aux << line;
-    aux >> frequency;
-    getline(aux >> ws, word);
-
-    transform(word.begin(), word.end(), word.begin(), toupper);
-
-    frequencies_words.insert({word, frequency});
-  }
+  Database database = UserInterface::OpenDatabase(argc, argv);
+  ProcessDatabase(database);
 
   for (const auto &fw : frequencies_words) cout << fw.first << endl;
 
@@ -59,12 +39,12 @@ int main(int argc, char **argv) {
               toupper);
 
     auto greater = [](const pair<string, size_t> &fw1,
-                           const pair<string, size_t> &fw2) {
+                      const pair<string, size_t> &fw2) {
       return fw1.first < fw2.first;
     };
 
     auto less = [](const pair<string, size_t> &fw1,
-                       const pair<string, size_t> &fw2) {
+                   const pair<string, size_t> &fw2) {
       return fw1.first >= fw2.first;
     };
 
