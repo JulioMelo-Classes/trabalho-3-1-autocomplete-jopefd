@@ -56,9 +56,9 @@ int main(int argc, char **argv) {
     transform(user_input.begin(), user_input.end(), user_input.begin(),
               toupper);
 
-    auto not_contains = [](const pair<string, size_t> &fw1,
+    auto greater = [](const pair<string, size_t> &fw1,
                            const pair<string, size_t> &fw2) {
-      return fw1.first.find(fw2.first) == string::npos;
+      return fw1.first < fw2.first;
     };
 
     auto contains = [](const pair<string, size_t> &fw1,
@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
     };
 
     auto first = lower_bound(frequencies_words.begin(), frequencies_words.end(),
-                             pair<string, size_t>{user_input, 0}, contains);
+                             pair<string, size_t>{user_input, 0}, greater);
     auto last = upper_bound(frequencies_words.begin(), frequencies_words.end(),
                             pair<string, size_t>{user_input, -1}, contains);
 
