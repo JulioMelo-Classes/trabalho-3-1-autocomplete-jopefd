@@ -5,6 +5,8 @@
 #include <sstream>
 #include <string>
 
+#include "user_interface.hpp"
+
 using std::cin;
 using std::cout;
 using std::endl;
@@ -24,7 +26,7 @@ using std::upper_bound;
 using std::ws;
 
 int main(int argc, char **argv) {
-  ifstream database(argv[1]);
+  ifstream database = UserInterface::OpenDatabase(argc, argv);
   string line;
 
   getline(database, line);
@@ -61,15 +63,15 @@ int main(int argc, char **argv) {
       return fw1.first < fw2.first;
     };
 
-    auto contains = [](const pair<string, size_t> &fw1,
+    auto less = [](const pair<string, size_t> &fw1,
                        const pair<string, size_t> &fw2) {
-      return fw1.first.find(fw2.first) != string::npos;
+      return fw1.first >= fw2.first;
     };
 
     auto first = lower_bound(frequencies_words.begin(), frequencies_words.end(),
                              pair<string, size_t>{user_input, 0}, greater);
     auto last = upper_bound(frequencies_words.begin(), frequencies_words.end(),
-                            pair<string, size_t>{user_input, -1}, contains);
+                            pair<string, size_t>{user_input, -1}, less);
 
     // for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
     cout << (first != frequencies_words.end() ? first->first : "no") << " F"
