@@ -1,12 +1,14 @@
 #include <iostream>
 #include <set>
+#include <sstream>
+#include <string>
 
 #include "database.hpp"
 #include "words_frequencies.hpp"
 
 class DatabaseController {
  public:
-  void ProcessDatabase(const Database &database);
+  void ProcessDatabase(Database &database);
 
   WordsFrequencies get_words_frequencies() const;
 
