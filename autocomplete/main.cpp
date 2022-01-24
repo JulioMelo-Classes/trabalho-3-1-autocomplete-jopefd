@@ -6,7 +6,7 @@
 #include <string>
 
 #include "database_controller.hpp"
-#include "user_interface.hpp"
+#include "io_controller.hpp"
 
 using std::cin;
 using std::cout;
@@ -26,11 +26,11 @@ using std::transform;
 using std::upper_bound;
 using std::ws;
 
-int main(int argc, char **argv) {
-  Database database = UserInterface::OpenDatabase(argc, argv);
-  ProcessDatabase(database);
+int main(const int argc, const char **argv) {
+  Database database = IOController::OpenDatabase(argc, argv);
+  DatabaseController database_controller;
 
-  for (const auto &fw : frequencies_words) cout << fw.first << endl;
+  database_controller.ProcessDatabase(database);
 
   string user_input;
 
@@ -48,15 +48,15 @@ int main(int argc, char **argv) {
       return fw1.first >= fw2.first;
     };
 
-    auto first = lower_bound(frequencies_words.begin(), frequencies_words.end(),
-                             pair<string, size_t>{user_input, 0}, greater);
-    auto last = upper_bound(frequencies_words.begin(), frequencies_words.end(),
-                            pair<string, size_t>{user_input, -1}, less);
+    // auto first = lower_bound(frequencies_words.begin(), frequencies_words.end(),
+    //                          pair<string, size_t>{user_input, 0}, greater);
+    // auto last = upper_bound(frequencies_words.begin(), frequencies_words.end(),
+    //                         pair<string, size_t>{user_input, -1}, less);
 
-    // for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
-    cout << (first != frequencies_words.end() ? first->first : "no") << " F"
-         << endl;
-    cout << (last != frequencies_words.end() ? last->first : "no") << " L"
-         << endl;
+    // // for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
+    // cout << (first != frequencies_words.end() ? first->first : "no") << " F"
+    //      << endl;
+    // cout << (last != frequencies_words.end() ? last->first : "no") << " L"
+    //      << endl;
   }
 }
