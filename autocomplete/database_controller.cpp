@@ -29,6 +29,8 @@ void DatabaseController::ProcessDatabase(Database &database) {
 
     words_frequencies.insert({word, frequency});
   }
+
+   for (const auto &fw : words_frequencies) std::cout << fw.first << std::endl;
 }
 
 WordsFrequencies DatabaseController::get_words_frequencies() const {
