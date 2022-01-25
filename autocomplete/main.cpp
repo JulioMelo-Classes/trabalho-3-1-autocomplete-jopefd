@@ -51,7 +51,7 @@ set<pair<string, size_t>>::iterator UpperBound(
 int main(int argc, char **argv) {
   ifstream database(argv[1]);
 
-  set<pair<string, size_t>> frequencies_words;
+  set<pair<string, size_t>> words_frequencies;
 
   string line;
 
@@ -71,10 +71,10 @@ int main(int argc, char **argv) {
 
     transform(word.begin(), word.end(), word.begin(), toupper);
 
-    frequencies_words.insert({word, frequency});
+    words_frequencies.insert({word, frequency});
   }
 
-  for (const auto &fw : frequencies_words) cout << fw.first << endl;
+  for (const auto &fw : words_frequencies) cout << fw.first << endl;
 
   string query;
 
@@ -83,10 +83,10 @@ int main(int argc, char **argv) {
 
     pair<string, size_t> query_pair = {query, 0};
 
-    if (not Contains(frequencies_words, query_pair.first)) continue;
+    if (not Contains(words_frequencies, query_pair.first)) continue;
 
-    auto first = LowerBound(frequencies_words, query_pair.first);
-    auto last = UpperBound(frequencies_words, query_pair.first);
+    auto first = LowerBound(words_frequencies, query_pair.first);
+    auto last = UpperBound(words_frequencies, query_pair.first);
 
     for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
   }
