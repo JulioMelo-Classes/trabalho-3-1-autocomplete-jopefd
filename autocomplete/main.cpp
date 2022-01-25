@@ -5,9 +5,7 @@
 #include <sstream>
 #include <string>
 
-#include "database_controller.hpp"
-#include "io_controller.hpp"
-
+using std::binary_search;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -16,7 +14,6 @@ using std::getline;
 using std::ifstream;
 using std::lower_bound;
 using std::pair;
-using std::search;
 using std::set;
 using std::size_t;
 using std::string;
@@ -26,37 +23,74 @@ using std::transform;
 using std::upper_bound;
 using std::ws;
 
-int main(const int argc, const char **argv) {
-  Database database = IOController::OpenDatabase(argc, argv);
-  DatabaseController database_controller;
+bool Contains(const set<pair<string, size_t>> &word_frequencies,
+              const string &prefix) {
+  return binary_search(word_frequencies.begin(), word_frequencies.end(),
+                       pair<string, size_t>{prefix, 0},
+                       [](const auto &fw, const auto &query_pair) {
+                         return fw.first.find(query_pair.first) == 0;
+                       });
+}
 
-  database_controller.ProcessDatabase(database);
+set<pair<string, size_t>>::iterator LowerBound(
+    const set<pair<string, size_t>> &word_frequencies, const string &prefix) {
+  return word_frequencies.lower_bound(pair<string, size_t>{prefix, 0});
+}
 
-  string user_input;
+set<pair<string, size_t>>::iterator UpperBound(
+    const set<pair<string, size_t>> &word_frequencies, const string &prefix) {
+  auto greater_equals_prefix = [](const pair<string, size_t> &user_input,
+                                  const pair<string, size_t> &fw) {
+    return user_input.first < fw.first and fw.first.find(user_input.first) != 0;
+  };
+  return upper_bound(word_frequencies.begin(), word_frequencies.end(),
+                     pair<string, size_t>{prefix, 0}, greater_equals_prefix);
+}
 
-  while (getline(cin, user_input)) {
-    transform(user_input.begin(), user_input.end(), user_input.begin(),
-              toupper);
+int main(int argc, char **argv) {
+  ifstream database(argv[1]);
 
-    auto greater = [](const pair<string, size_t> &fw1,
-                      const pair<string, size_t> &fw2) {
-      return fw1.first < fw2.first;
-    };
+  set<pair<string, size_t>> words_frequencies;
 
-    auto less = [](const pair<string, size_t> &fw1,
-                   const pair<string, size_t> &fw2) {
-      return fw1.first >= fw2.first;
-    };
+  string line;
 
-    // auto first = lower_bound(frequencies_words.begin(), frequencies_words.end(),
-    //                          pair<string, size_t>{user_input, 0}, greater);
-    // auto last = upper_bound(frequencies_words.begin(), frequencies_words.end(),
-    //                         pair<string, size_t>{user_input, -1}, less);
+  getline(database, line);
+  size_t lines_number = stoi(line);
 
-    // // for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
-    // cout << (first != frequencies_words.end() ? first->first : "no") << " F"
-    //      << endl;
-    // cout << (last != frequencies_words.end() ? last->first : "no") << " L"
-    //      << endl;
+  while (lines_number--) {
+    size_t frequency;
+    string word;
+    stringstream aux;
+
+    getline(database, line);
+
+    aux << line;
+    aux >> frequency;
+    getline(aux >> ws, word);
+
+    transform(word.begin(), word.end(), word.begin(), toupper);
+
+    words_frequencies.insert({word, frequency});
+  }
+
+  while (true) {
+    cout << ">>> Type a word and hit ENTER or <ctrl>+d to quit : ";
+
+    string query;
+    if (not getline(cin, query)) break;
+    transform(query.begin(), query.end(), query.begin(), toupper);
+
+    pair<string, size_t> query_pair = {query, 0};
+
+    if (not Contains(words_frequencies, query_pair.first)) continue;
+
+    auto first = LowerBound(words_frequencies, query_pair.first);
+    auto last = UpperBound(words_frequencies, query_pair.first);
+
+    cout << ">>> The matches are:" << endl;
+
+    for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
+
+    cout << "\n\n" << endl;
   }
 }
