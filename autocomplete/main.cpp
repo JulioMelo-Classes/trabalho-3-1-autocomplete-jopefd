@@ -24,6 +24,15 @@ using std::transform;
 using std::upper_bound;
 using std::ws;
 
+bool Contains(const set<pair<string, size_t>> &word_frequencies,
+              const string &prefix) {
+  return binary_search(word_frequencies.begin(), word_frequencies.end(),
+                       pair<string, size_t>{prefix, 0},
+                       [](const auto &fw, const auto &query_pair) {
+                         return fw.first.find(query_pair.first) == 0;
+                       });
+}
+
 int main(int argc, char **argv) {
   //////////////////////////////////////////////////////////////////////////////
   ifstream database(argv[1]);
@@ -62,12 +71,7 @@ int main(int argc, char **argv) {
 
     pair<string, size_t> query_pair = {query, 0};
 
-    if (not binary_search(frequencies_words.begin(), frequencies_words.end(),
-                          query_pair,
-                          [](const auto &fw, const auto &query_pair) {
-                            return fw.first.find(query_pair.first) == 0;
-                          }))
-      continue;
+    if (not Contains(frequencies_words, query_pair.first)) continue;
 
     auto first = frequencies_words.lower_bound(query_pair);
     // auto last = frequencies_words.upper_bound(query_pair);
