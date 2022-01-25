@@ -73,7 +73,6 @@ int main(int argc, char **argv) {
     words_frequencies.insert({word, frequency});
   }
 
-
   while (true) {
     cout << ">>> Type a word and hit ENTER or <ctrl>+d to quit : ";
 
