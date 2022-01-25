@@ -74,9 +74,12 @@ int main(int argc, char **argv) {
     words_frequencies.insert({word, frequency});
   }
 
-  string query;
 
-  while (getline(cin, query)) {
+  while (true) {
+    cout << ">>> Type a word and hit ENTER or <ctrl>+d to quit : ";
+
+    string query;
+    if (not getline(cin, query)) break;
     transform(query.begin(), query.end(), query.begin(), toupper);
 
     pair<string, size_t> query_pair = {query, 0};
@@ -86,6 +89,10 @@ int main(int argc, char **argv) {
     auto first = LowerBound(words_frequencies, query_pair.first);
     auto last = UpperBound(words_frequencies, query_pair.first);
 
+    cout << ">>> The matches are:" << endl;
+
     for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
+
+    cout << "\n\n" << endl;
   }
 }
