@@ -14,7 +14,6 @@ using std::getline;
 using std::ifstream;
 using std::lower_bound;
 using std::pair;
-using std::search;
 using std::set;
 using std::size_t;
 using std::string;
