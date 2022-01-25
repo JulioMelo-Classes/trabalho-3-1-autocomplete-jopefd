@@ -88,10 +88,6 @@ int main(int argc, char **argv) {
     auto first = LowerBound(frequencies_words, query_pair.first);
     auto last = UpperBound(frequencies_words, query_pair.first);
 
-    // for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
-    cout << (first != frequencies_words.end() ? first->first : "no") << " F"
-         << endl;
-    cout << (last != frequencies_words.end() ? last->first : "no") << " L"
-         << endl;
+    for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
   }
 }
