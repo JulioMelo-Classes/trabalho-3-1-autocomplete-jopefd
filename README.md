@@ -94,6 +94,25 @@ Neste segundo exemplo, a base de dados é `wiktionary.txt` e a string buscada fo
 
 Note que o programa não deve ser **case sensitive**. Ou seja, não deve fazer diferença se o usuário digita "São P", "são p", "SÃO P",  ou qualquer variação de maiúscula ou minúscula. A entrada do usuário deve ser convertida para um case qualquer (todas maiúsculas ou todas minúsculas), para facilitar a operação de busca na base de dados.
 
+# Feedback Checkin 1 35%
+
+1. Projete ao menos as 3 classes principais propostas para o programa. Não precisa implementar, apenas os .h são suficientes. **ok**
+    - Acho que entendi a ideia de controller + outra classe, embora eu ache realmente desnecessária a menos que vc queira seguir algum padrão específico. Nesse caso, eu sugiro que você
+    coloque os códigos relativos ao database_controller dento do database mesmo, deixando o código com menos classes. Não que seja ruim, porém o que vc está fazenco com os controllers
+    é basicamente implementando métodos que deveriam estar nas classes, então fica realmente inconsistente.
+
+2. Implemente a classe responsável por ler e armazenar as informações do banco de dados de entrada. **25%**
+    - Vi que você tentou fazer alguma coisa de última hora mas não compila.
+   
+3. Escreva o main instanciando a do item 2 mostrando que ela funciona para carregar e armazenar as informações. **30%**
+    - Vou considerar 30% pois você escreveu o main o que dá para entender a ordem de funcionamento, mesmo não estando compilando.
+
+4. Escreva parte da classe responsável pela interface com o usuário, de forma que o usuário consiga ao menos digitar a alguma palavra no loop principa, mostrando uma interface similar à interface sugerida na atividade 3.1. **nok**
+    - Seria a iocontroller? Veja que o objetivo desta classe é centralizar os cins/couts do usuário, você também pode colocar o "main loop" do trabalho dentro desta classe e fazer toda a
+    comunicação entre database e query dentro dela, embora esse trabalho poderia realmente ser feito no main.
+
+5. Use a classe implementada em 4 no main, para mostrar que ela funciona. Não precisa realizar qualquer busca no banco, se a entrada do usuário estiver sendo recebida e impressa no terminal já conta para esse checkin. **nok**
+
 # Autorship
 
 The description of this programming assignment was taken from [Computer Sciecne at Pricenton University](http://introcs.cs.princeton.edu/java/assignments/autocomplete.html).
