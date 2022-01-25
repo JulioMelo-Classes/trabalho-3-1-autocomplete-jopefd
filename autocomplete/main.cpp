@@ -74,8 +74,6 @@ int main(int argc, char **argv) {
     words_frequencies.insert({word, frequency});
   }
 
-  for (const auto &fw : words_frequencies) cout << fw.first << endl;
-
   string query;
 
   while (getline(cin, query)) {
