@@ -33,6 +33,11 @@ bool Contains(const set<pair<string, size_t>> &word_frequencies,
                        });
 }
 
+set<pair<string, size_t>>::iterator LowerBound(
+    const set<pair<string, size_t>> &word_frequencies, const string &prefix) {
+  return word_frequencies.lower_bound(pair<string, size_t>{prefix, 0});
+}
+
 int main(int argc, char **argv) {
   //////////////////////////////////////////////////////////////////////////////
   ifstream database(argv[1]);
@@ -73,7 +78,7 @@ int main(int argc, char **argv) {
 
     if (not Contains(frequencies_words, query_pair.first)) continue;
 
-    auto first = frequencies_words.lower_bound(query_pair);
+    auto first = LowerBound(frequencies_words, query_pair.first);
     // auto last = frequencies_words.upper_bound(query_pair);
 
     // auto less = [](const pair<string, size_t> &fw,
