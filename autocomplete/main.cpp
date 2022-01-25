@@ -38,6 +38,16 @@ set<pair<string, size_t>>::iterator LowerBound(
   return word_frequencies.lower_bound(pair<string, size_t>{prefix, 0});
 }
 
+set<pair<string, size_t>>::iterator UpperBound(
+    const set<pair<string, size_t>> &word_frequencies, const string &prefix) {
+  auto greater_equals_prefix = [](const pair<string, size_t> &user_input,
+                                  const pair<string, size_t> &fw) {
+    return user_input.first < fw.first and fw.first.find(user_input.first) != 0;
+  };
+  return upper_bound(word_frequencies.begin(), word_frequencies.end(),
+                     pair<string, size_t>{prefix, 0}, greater_equals_prefix);
+}
+
 int main(int argc, char **argv) {
   //////////////////////////////////////////////////////////////////////////////
   ifstream database(argv[1]);
@@ -86,17 +96,10 @@ int main(int argc, char **argv) {
     //   return fw.first < user_input.first;
     // };
 
-    auto greater_equals_prefix = [](const pair<string, size_t> &user_input,
-                                    const pair<string, size_t> &fw) {
-      return user_input.first < fw.first and
-             fw.first.find(user_input.first) != 0;
-    };
-
     // auto first = lower_bound(frequencies_words.begin(),
     // frequencies_words.end(),
     //                          pair<string, size_t>{user_input, 0}, less);
-    auto last = upper_bound(frequencies_words.begin(), frequencies_words.end(),
-                            query_pair, greater_equals_prefix);
+    auto last = UpperBound(frequencies_words, query_pair.first);
 
     // for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
     cout << (first != frequencies_words.end() ? first->first : "no") << " F"
