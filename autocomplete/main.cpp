@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 
+using std::binary_search;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -24,13 +25,16 @@ using std::upper_bound;
 using std::ws;
 
 int main(int argc, char **argv) {
+  //////////////////////////////////////////////////////////////////////////////
   ifstream database(argv[1]);
+
+  //////////////////////////////////////////////////////////////////////////////
+  set<pair<string, size_t>> frequencies_words;
+
   string line;
 
   getline(database, line);
   size_t lines_number = stoi(line);
-
-  set<pair<string, size_t>> frequencies_words;
 
   while (lines_number--) {
     size_t frequency;
@@ -49,27 +53,41 @@ int main(int argc, char **argv) {
   }
 
   for (const auto &fw : frequencies_words) cout << fw.first << endl;
+  //////////////////////////////////////////////////////////////////////////////
 
-  string user_input;
+  string query;
 
-  while (getline(cin, user_input)) {
-    transform(user_input.begin(), user_input.end(), user_input.begin(),
-              toupper);
+  while (getline(cin, query)) {
+    transform(query.begin(), query.end(), query.begin(), toupper);
 
-    auto greater = [](const pair<string, size_t> &fw1,
-                           const pair<string, size_t> &fw2) {
-      return fw1.first < fw2.first;
+    pair<string, size_t> query_pair = {query, 0};
+
+    if (not binary_search(frequencies_words.begin(), frequencies_words.end(),
+                          query_pair,
+                          [](const auto &fw, const auto &query_pair) {
+                            return fw.first.find(query_pair.first) == 0;
+                          }))
+      continue;
+
+    auto first = frequencies_words.lower_bound(query_pair);
+    // auto last = frequencies_words.upper_bound(query_pair);
+
+    // auto less = [](const pair<string, size_t> &fw,
+    //                const pair<string, size_t> &user_input) {
+    //   return fw.first < user_input.first;
+    // };
+
+    auto greater_equals_prefix = [](const pair<string, size_t> &user_input,
+                                    const pair<string, size_t> &fw) {
+      return user_input.first < fw.first and
+             fw.first.find(user_input.first) != 0;
     };
 
-    auto contains = [](const pair<string, size_t> &fw1,
-                       const pair<string, size_t> &fw2) {
-      return fw1.first.find(fw2.first) != string::npos;
-    };
-
-    auto first = lower_bound(frequencies_words.begin(), frequencies_words.end(),
-                             pair<string, size_t>{user_input, 0}, greater);
+    // auto first = lower_bound(frequencies_words.begin(),
+    // frequencies_words.end(),
+    //                          pair<string, size_t>{user_input, 0}, less);
     auto last = upper_bound(frequencies_words.begin(), frequencies_words.end(),
-                            pair<string, size_t>{user_input, -1}, contains);
+                            query_pair, greater_equals_prefix);
 
     // for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
     cout << (first != frequencies_words.end() ? first->first : "no") << " F"
@@ -77,4 +95,5 @@ int main(int argc, char **argv) {
     cout << (last != frequencies_words.end() ? last->first : "no") << " L"
          << endl;
   }
+  //////////////////////////////////////////////////////////////////////////////
 }
