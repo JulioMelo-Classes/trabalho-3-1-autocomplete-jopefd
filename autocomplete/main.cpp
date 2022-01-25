@@ -49,10 +49,8 @@ set<pair<string, size_t>>::iterator UpperBound(
 }
 
 int main(int argc, char **argv) {
-  //////////////////////////////////////////////////////////////////////////////
   ifstream database(argv[1]);
 
-  //////////////////////////////////////////////////////////////////////////////
   set<pair<string, size_t>> frequencies_words;
 
   string line;
@@ -77,7 +75,6 @@ int main(int argc, char **argv) {
   }
 
   for (const auto &fw : frequencies_words) cout << fw.first << endl;
-  //////////////////////////////////////////////////////////////////////////////
 
   string query;
 
@@ -89,16 +86,6 @@ int main(int argc, char **argv) {
     if (not Contains(frequencies_words, query_pair.first)) continue;
 
     auto first = LowerBound(frequencies_words, query_pair.first);
-    // auto last = frequencies_words.upper_bound(query_pair);
-
-    // auto less = [](const pair<string, size_t> &fw,
-    //                const pair<string, size_t> &user_input) {
-    //   return fw.first < user_input.first;
-    // };
-
-    // auto first = lower_bound(frequencies_words.begin(),
-    // frequencies_words.end(),
-    //                          pair<string, size_t>{user_input, 0}, less);
     auto last = UpperBound(frequencies_words, query_pair.first);
 
     // for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
@@ -107,5 +94,4 @@ int main(int argc, char **argv) {
     cout << (last != frequencies_words.end() ? last->first : "no") << " L"
          << endl;
   }
-  //////////////////////////////////////////////////////////////////////////////
 }
