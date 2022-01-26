@@ -4,10 +4,13 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include <vector>
 
 using std::binary_search;
 using std::cin;
+using std::copy;
 using std::cout;
+using std::distance;
 using std::endl;
 using std::for_each;
 using std::getline;
@@ -21,6 +24,7 @@ using std::stringstream;
 using std::tolower;
 using std::transform;
 using std::upper_bound;
+using std::vector;
 using std::ws;
 
 class Database {
@@ -83,6 +87,20 @@ class Database {
     }
   }
 
+  vector<string> FindMatches(const string &query) {
+    auto first_match = LowerBound(query);
+    auto last_match = UpperBound(query);
+    size_t matches_size = distance(first_match, last_match) - 1;
+    vector<string> matches(matches_size);
+
+    for (size_t i = 0; i < matches_size; i++) {
+      first_match++;
+      matches[i] = first_match->first;
+    }
+
+    return matches;
+  }
+
  private:
   set<pair<string, size_t>> words_frequencies_;
 };
@@ -101,13 +119,12 @@ int main(int argc, char **argv) {
 
     if (not database.Contains(query_pair.first)) continue;
 
-    const auto first_match = database.LowerBound(query_pair.first);
-    const auto last_match = database.UpperBound(query_pair.first);
+    auto matches = database.FindMatches(query_pair.first);
 
     cout << ">>> The matches are:" << endl;
 
-    for_each(first_match, last_match,
-             [](const auto &fw) { cout << fw.first << endl; });
+    for_each(matches.begin(), matches.end(),
+             [](string &m) { cout << m << endl; });
 
     cout << "\n\n" << endl;
   }
