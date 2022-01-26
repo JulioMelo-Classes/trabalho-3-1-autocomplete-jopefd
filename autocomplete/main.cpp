@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
   Database database(argv[1]);
 
   while (true) {
-    cout << ">>> Type a word and hit ENTER or <ctrl>+d to quit : ";
+    cout << ">>> Type a word and hit ENTER or <ctrl>+d to quit: ";
 
     string query;
     if (not getline(cin, query)) break;
@@ -99,14 +99,15 @@ int main(int argc, char **argv) {
 
     pair<string, size_t> query_pair = {query, 0};
 
-    if (not Contains(words_frequencies, query_pair.first)) continue;
+    if (not database.Contains(query_pair.first)) continue;
 
-    auto first = LowerBound(words_frequencies, query_pair.first);
-    auto last = UpperBound(words_frequencies, query_pair.first);
+    const auto first_match = database.LowerBound(query_pair.first);
+    const auto last_match = database.UpperBound(query_pair.first);
 
     cout << ">>> The matches are:" << endl;
 
-    for_each(first, last, [](const auto &fw) { cout << fw.first << endl; });
+    for_each(first_match, last_match,
+             [](const auto &fw) { cout << fw.first << endl; });
 
     cout << "\n\n" << endl;
   }
