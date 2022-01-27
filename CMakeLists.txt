@@ -3,7 +3,4 @@ project(autocomplete VERSION 0.0.1 LANGUAGES CXX)
 
 include_directories(./autocomplete/)
 add_executable(autocomplete
-               ./autocomplete/main.cpp
-               ./autocomplete/database_controller.cpp
-               ./autocomplete/io_controller.cpp
-               ./autocomplete/query_controller.cpp)
+               ./autocomplete/main.cpp)
