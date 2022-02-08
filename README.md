@@ -104,3 +104,36 @@ The description of this programming assignment was taken from [Computer Sciecne 
 
 &copy; DIMAp/UFRN 2021.
 &copy; IMD/UFRN 2021.
+
+# Avaliação
+
+## Ler e validar os argumentos da linha de comando | 0 / 10
+
+- Voce não fez qualquer validação, alguns erros que eu esperava tratamento: quantidade de argumentos da linha de comando, arquivo inexistente, arquivo inválido.
+
+## Ler os dados da base de dados e armazená-los em uma classe apropriada | 10 / 10
+
+- ok
+
+## Separar a interface textual das demais classes do sistema concentrando os couts e cins em um único objeto | 10 / 10 
+
+- ok
+
+## Implementação de uma classe para conter o resultado da requisição do usuário | 10 / 10
+
+- ok
+
+## Implementação eficiente através de referencias e algoritmos de busca binária | 8 / 10
+
+- Acho que o único ponto que poderia melhorar era no método FindMatches, onde você retorna um conainer. Nesse caso vc poderia otimizar guardando iterators no container
+ao invés de replicar os dados da base, ou mesmo guardar ponteiros para os elementos da base. Para evitar retornar um container, vc poderia criar ele internamente
+com new e retornar uma referencia, mas tudo ficaria mais fácil se vc criasse e retornasse uma instancia de "Query".
+
+## Organização do código em src, include, data | 0 / 5
+
+## Documentação do código usando o padrão doxygen | 5 / 5
+
+## Implementação e documentação de arquivos de teste | 5 / 10
+
+- Você criou uma base adicional, mas não documentou qualquer caso de teste usando essa base. Neste quesito eu esperava um conjunto com entrada/saída esperada, 
+mostrando casos de match/no match.
